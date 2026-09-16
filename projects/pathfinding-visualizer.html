@@ -45,8 +45,8 @@
     <p>If you've taken an algorithms class, you've probably seen Dijkstra's algorithm or A* search as pseudocode on a slide. The pseudocode is not that hard to read. What's harder is getting a feel for <strong>how</strong> each algorithm actually explores: which cells it looks at first, why one algorithm finishes faster than another, and why some of them don't always find the shortest path. So this website lets you just watch it happen.</p>
 
     <figure>
-      <img src="../assets/pathfinding/full-app.png" alt="Pathfinding Visualizer showing a generated maze, explored cells in orange and the shortest path in green" loading="lazy">
-      <figcaption>A* search on a maze made with Randomized Prim's algorithm. Orange is explored, green is the shortest path.</figcaption>
+      <video autoplay muted loop playsinline preload="metadata" data-loop poster="../assets/video/pathfinding-poster.jpg" aria-label="Recording of a maze being generated, then A* search exploring it and drawing the shortest path" style="width: 100%; max-width: 480px; margin: 0 auto; display: block; border-radius: 6px; border: 1px solid var(--border); background: #fff;"><source src="../assets/video/pathfinding.mp4" type="video/mp4"></video>
+      <figcaption>A* search on a maze made with Randomized Prim's algorithm. Orange is explored, green is the shortest path. Recorded from the live site.</figcaption>
     </figure>
 
     <h2>How it works</h2>
@@ -126,5 +126,6 @@
   </div>
 </footer>
 
+<script src="../media.js" defer></script>
 </body>
 </html>

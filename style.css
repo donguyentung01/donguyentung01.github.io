@@ -126,6 +126,8 @@ img { max-width: 100%; display: block; }
 .card-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
 .card-bar span { padding-left: 8px; }
 .card-img { width: 100%; aspect-ratio: 1486 / 620; object-fit: cover; object-position: top; }
+.card-video { display: block; aspect-ratio: 16 / 9; object-position: center; background: #000; }
+video { max-width: 100%; }
 .card-proof {
   position: relative;
   z-index: 2;
@@ -165,6 +167,9 @@ img { max-width: 100%; display: block; }
 .log li { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); column-gap: 8px; }
 .log time { color: var(--accent); }
 .log .ok { color: var(--accent); font-weight: 700; }
+.log ol.typing li { opacity: 0; transform: translateY(4px); transition: opacity .35s ease, transform .35s ease; }
+.log ol.typing li.shown { opacity: 1; transform: none; }
+.log ol.typing li.shown .ok::after { content: "_"; margin-left: 2px; color: var(--accent); animation: blink 1.1s steps(1) infinite; }
 
 .card-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 20px; font-size: 16px; }
 .card-foot .read { font-weight: 600; color: var(--accent); }
@@ -174,11 +179,11 @@ img { max-width: 100%; display: block; }
 @media (hover: hover) { .card-foot .ext a:hover { color: var(--text); } }
 
 .split-media { background: #fff; border-bottom: 1px solid var(--border); }
-.split-media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; }
+.split-media img, .split-media video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; }
 @media (min-width: 820px) {
   .card.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
   .split-media { border-bottom: 0; border-right: 1px solid var(--border); display: flex; align-items: center; }
-  .split-media img { aspect-ratio: auto; height: 100%; object-fit: cover; }
+  .split-media img, .split-media video { aspect-ratio: 1 / 1; height: 100%; object-fit: cover; object-position: center; }
 }
 
 /* ---------- about ---------- */

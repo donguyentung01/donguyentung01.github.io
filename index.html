@@ -59,7 +59,7 @@
 
       <article class="card">
         <div class="card-bar" aria-hidden="true"><i></i><i></i><i></i><span>leagueguessr.com</span></div>
-        <img class="card-img" src="assets/leagueguessr/caedrel-stream.png" alt="Streamer Caedrel playing the game live on his Twitch stream">
+        <video class="card-img card-video" autoplay muted loop playsinline preload="metadata" data-loop poster="assets/video/caedrel-poster.jpg" aria-label="Clip of streamer Caedrel playing the game live on his Twitch stream"><source src="assets/video/caedrel.mp4" type="video/mp4"></video>
         <div class="card-proof">
           <span><span class="live">● LIVE</span>&nbsp; Caedrel, a League streamer with 1M+ followers, playing my game on Twitch</span>
           <a class="cta" href="https://www.twitch.tv/caedrel/clip/CoyBoringPterodactylGingerPower-DvceWTwpsh5ivYf3" target="_blank" rel="noopener">Watch the clip ↗</a>
@@ -94,7 +94,7 @@
           </div>
           <p>San Francisco's public tennis courts are gone within seconds of booking opening. So I wrote a bot that books them for me, faster than any person can click.</p>
           <div class="fair"><span class="fair-tag">Fair play</span> I only booked courts I was actually going to play on. No extras, never resold. Public courts should stay public.</div>
-          <div class="log">
+          <div class="log" data-animate>
             <div class="log-head">What the bot does every morning</div>
             <ol>
               <li><time>7:58 AM</time> Logs in to the booking site</li>
@@ -118,7 +118,7 @@
 
       <article class="card split">
         <div class="split-media">
-          <img src="assets/pathfinding/astar-maze.png" alt="Maze grid where A* search has explored cells in orange and found the shortest path in green">
+          <video autoplay muted loop playsinline preload="metadata" data-loop poster="assets/video/pathfinding-poster.jpg" aria-label="Recording of a maze being generated, then A* search exploring it and drawing the shortest path"><source src="assets/video/pathfinding.mp4" type="video/mp4"></video>
         </div>
         <div class="card-body">
           <div class="card-title">
@@ -157,5 +157,6 @@
   </div>
 </footer>
 
+<script src="media.js" defer></script>
 </body>
 </html>
