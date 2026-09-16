@@ -156,6 +156,9 @@ img { max-width: 100%; display: block; }
 .stats b { display: block; font-family: var(--mono); font-size: 36px; font-weight: 700; line-height: 1.2; color: var(--accent); }
 .stats span { display: block; font-size: 14px; line-height: 1.4; color: var(--muted); }
 
+.fair { padding: 12px 16px; border: 1px dashed var(--border); border-radius: 6px; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.fair-tag { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--accent); margin-right: 6px; }
+.fair-tag::before { content: "✓ "; }
 .log { border-radius: 6px; background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
 .log-head { padding: 10px 20px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 .log ol { list-style: none; margin: 0; padding: 14px 20px; font-family: var(--mono); font-size: 15px; line-height: 1.9; color: var(--muted); }
