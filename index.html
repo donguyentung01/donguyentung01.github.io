@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tung Do · Software Engineer</title>
+  <meta name="description" content="Tung Do: MS Computer Science (ML) at Columbia, ex-Microsoft software engineer. Builder of LeagueGuessr (300k+ plays) and Reserve Court SF.">
+  <meta property="og:title" content="Tung Do · Software Engineer">
+  <meta property="og:description" content="MS CS (ML) @ Columbia, ex-Microsoft software engineer.">
+  <meta property="og:image" content="assets/leagueguessr/caedrel-stream.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%233fb950'%3E%E2%80%BA_%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="accent">› </span>Tung Do</a>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top" class="wrap">
+
+  <header class="hero">
+    <h1>Hi, I'm Tung.<span class="cursor" aria-hidden="true">_</span></h1>
+    <ul class="facts">
+      <li>MS Computer Science (ML) @ Columbia, graduating Dec 2027</li>
+      <li>ex-Microsoft software engineer</li>
+      <li>builds side projects people actually use</li>
+    </ul>
+    <div class="actions">
+      <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener">View my resume</a>
+      <a class="btn" href="mailto:tnd2125@columbia.edu">Email: tnd2125@columbia.edu</a>
+      <div class="links">
+        <a href="https://github.com/donguyentung01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/tung-do-116bb8189/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://substack.com/@tungdo2" target="_blank" rel="noopener">Substack</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="projects">
+    <div class="section-head">
+      <h2 class="prompt">Projects</h2>
+      <p>Things I built on my own. Click one to read how I made it.</p>
+    </div>
+
+    <div class="projects">
+
+      <article class="card">
+        <div class="card-bar" aria-hidden="true"><i></i><i></i><i></i><span>leagueguessr.com</span></div>
+        <img class="card-img" src="assets/leagueguessr/caedrel-stream.png" alt="Streamer Caedrel playing the game live on his Twitch stream">
+        <div class="card-proof">
+          <span><span class="live">● LIVE</span>&nbsp; Caedrel, a League streamer with 1M+ followers, playing my game on Twitch</span>
+          <a class="cta" href="https://www.twitch.tv/caedrel/clip/CoyBoringPterodactylGingerPower-DvceWTwpsh5ivYf3" target="_blank" rel="noopener">Watch the clip ↗</a>
+        </div>
+        <div class="card-body">
+          <div class="card-title">
+            <h3><a href="projects/leagueguessr.html">LeagueGuessr</a></h3>
+            <span class="stack">Built with React, Python (FastAPI), MySQL, AWS</span>
+          </div>
+          <p>A web game for League of Legends fans: you see which characters each team picked, then guess which team won.</p>
+          <div class="stats">
+            <div><b>300k+</b><span>games played</span></div>
+            <div><b>30k+</b><span>players</span></div>
+            <div><b>500+</b><span>upvotes on r/leagueoflegends</span></div>
+          </div>
+          <div class="card-foot">
+            <a class="read" href="projects/leagueguessr.html">Read the story →</a>
+            <div class="ext">
+              <a href="https://leagueguessr.com" target="_blank" rel="noopener">Play the game ↗</a>
+              <a href="https://github.com/donguyentung01/LeagueGuessr" target="_blank" rel="noopener">Code on GitHub ↗</a>
+              <a href="https://www.reddit.com/r/leagueoflegends/comments/1l3k8dh/i_pulled_data_from_10000_aram_matches_in_euw_and/" target="_blank" rel="noopener">Reddit launch ↗</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h3><a href="projects/reserve-court-sf.html">Reserve Court SF</a></h3>
+            <span class="stack">Built with Python, runs daily on AWS</span>
+          </div>
+          <p>San Francisco's public tennis courts are gone within seconds of booking opening. So I wrote a bot that books them for me, faster than any person can click.</p>
+          <div class="log">
+            <div class="log-head">What the bot does every morning</div>
+            <ol>
+              <li><time>7:58 AM</time> Logs in to the booking site</li>
+              <li><time>7:59 AM</time> Grabs the text-message verification code by itself</li>
+              <li><time>8:00 AM</time> Booking opens: tries every court at once to grab an open one</li>
+              <li><time>8:00 AM</time> <span class="ok">✓ Court reserved in ~1.5 seconds</span></li>
+            </ol>
+          </div>
+          <div class="stats" style="--cols: 2;">
+            <div><b>100+</b><span>courts booked in 3 months</span></div>
+            <div><b>~1.5s</b><span>average time to book</span></div>
+          </div>
+          <div class="card-foot">
+            <a class="read" href="projects/reserve-court-sf.html">Read the story →</a>
+            <div class="ext">
+              <a href="https://github.com/donguyentung01/Reserve-Court-SF-TextVerified" target="_blank" rel="noopener">Code on GitHub ↗</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+</main>
+
+<footer id="contact" class="footer">
+  <div class="wrap">
+    <div>© 2026 Tung Do · <a href="mailto:tnd2125@columbia.edu" style="color: var(--text);">tnd2125@columbia.edu</a></div>
+    <div class="links">
+      <a href="https://github.com/donguyentung01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/tung-do-116bb8189/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

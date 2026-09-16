@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Reserve Court SF · Tung Do</title>
+  <meta name="description" content="How I built a Python bot that books San Francisco tennis and pickleball courts in about 1.5 seconds.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%233fb950'%3E%E2%80%BA_%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="accent">› </span>Tung Do</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="article">
+  <a class="back" href="../index.html#projects">← Back to projects</a>
+
+  <header>
+    <h1>I wrote a bot to book tennis courts in San Francisco.</h1>
+    <p class="dek">Because the courts were always gone before I could even click</p>
+    <div class="meta">
+      <span>Python · Selenium · AWS EC2</span>
+      <a href="https://github.com/donguyentung01/Reserve-Court-SF-TextVerified" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <p>If you play tennis or pickleball in San Francisco, you probably know <a href="https://www.rec.us/organizations/san-francisco-rec-park" target="_blank" rel="noopener">rec.us</a>. It's the website where you reserve public courts in the city. It looks simple enough: pick a court, pick a time slot, and you're done.</p>
+
+    <figure>
+      <img src="../assets/reserve-court/recus-home.png" alt="The rec.us court reservation page for San Francisco Rec and Park" loading="lazy">
+      <figcaption>The SF Rec &amp; Park reservation page on rec.us</figcaption>
+    </figure>
+
+    <p>The problem is that everyone else is trying to book the same courts at the same time. Each court opens for registration at a specific time of day. For example, Alice Marble courts open about a week in advance at <strong>exactly 8:00 AM</strong>. And the good time slots are usually <strong>fully reserved within 5-10 seconds</strong> after opening.</p>
+
+    <p>So I wrote a Python script that reserves the court for me. Over a 3-month period, it successfully reserved <strong>100+ tennis/pickleball courts</strong>, with an average runtime of about <strong>1.5 seconds</strong>.</p>
+
+    <blockquote><strong>A quick note before anything else:</strong> this bot is not for gaming the system. I built it for personal and educational purposes, and I only used it to book courts for myself, for times I was actually going to play. I never booked extra courts "just in case", never resold anything, and never used it to keep other people off public courts. Public courts should stay public, and I don't want this project to be the reason someone else can't play. If you use the code, please use it the same way and follow <a href="https://www.rec.us/tos" target="_blank" rel="noopener">rec.us's terms of service</a>.</blockquote>
+
+    <h2>Why I made this bot</h2>
+
+    <p>Honestly, I just wanted to play tennis. But reserving a court manually had 3 main issues:</p>
+
+    <ol>
+      <li><p><strong>You have to be really fast.</strong> As soon as registration opens, you have to click through the website before everyone else does. With 5-10 seconds before the courts are gone, one slow page load and you lose.</p></li>
+      <li><p><strong>Every reservation needs SMS verification.</strong> You have to request a code, wait for the text message, and type it in. That takes even more time.</p></li>
+      <li><p><strong>The timing is not always convenient.</strong> Alice Marble opens at 8:00 AM, which is too early for a lot of people.</p></li>
+    </ol>
+
+    <figure>
+      <img src="../assets/reserve-court/sms-verification.png" alt="rec.us popup asking the user to verify their phone number before reserving" loading="lazy">
+      <figcaption>Every single reservation asks you to verify your phone number first</figcaption>
+    </figure>
+
+    <p>So the goal was pretty clear. The script should be able to reserve a given court at a given time slot, and it should be faster than people clicking by hand. Ideally, also faster than other people's scripts.</p>
+
+    <h2>How it works</h2>
+
+    <p>Here's what happens every time the bot runs:</p>
+
+    <ol>
+      <li><p><strong>2 minutes before registration opens</strong>, the script uses Selenium to open rec.us and log in, just like a normal user. Then it grabs the access token from the browser's cookies. This token has to be attached to every request later on.</p></li>
+      <li><p><strong>1 minute before</strong>, it asks rec.us to send a verification code by text message.</p></li>
+      <li><p>The phone number is a rented number on <a href="https://www.textverified.com/" target="_blank" rel="noopener">TextVerified</a>, so the script just calls the TextVerified API to read the code.</p></li>
+      <li><p><strong>As soon as registration opens</strong>, it submits the verification code.</p></li>
+      <li><p>Once the code is accepted, it sends the reservation requests with the court, date and time slot. If the response comes back OK, the court is ours.</p></li>
+    </ol>
+
+    <figure>
+      <img src="../assets/reserve-court/reserved.png" alt="rec.us confirmation of a court reservation at Alice Marble, Court 2" loading="lazy">
+      <figcaption>Court reserved successfully</figcaption>
+    </figure>
+
+    <p>The script is deployed on an AWS EC2 instance, and it's scheduled with crontab to run every day right before the court reservation opens. So I don't have to wake up at 8 AM anymore.</p>
+
+    <h2>Technical challenges</h2>
+
+    <h3>Web crawling or calling the API directly?</h3>
+
+    <p>There are two ways for a script to reserve a court:</p>
+
+    <ol>
+      <li><p>Web crawling: the script opens the website and clicks through buttons, the same way a human would.</p></li>
+      <li><p>Calling the website's API directly: skip the UI completely, and send the same HTTP requests that the website sends behind the scenes.</p></li>
+    </ol>
+
+    <p>Each method has its pros and cons. Web crawling is much easier to write, since you just tell Selenium what to click. The original version of my script actually did this. However, it resulted in <strong>a lot of failed attempts</strong>, because navigating pages and clicking buttons is just not fast enough when the courts are gone in 5 seconds.</p>
+
+    <p>Calling the API is harder to set up, but switching to it <strong>eliminated 5-6 seconds of runtime</strong> that were previously spent navigating and clicking. All things considered, I went with the second method, and I only kept Selenium for the login step.</p>
+
+    <h3>Figuring out an API with no documentation</h3>
+
+    <p>A natural question arises: which API? rec.us doesn't have any official documentation, so I had to open the network tab in my browser, make a reservation manually, and figure out which HTTP endpoints were being called.</p>
+
+    <p>One particular challenge was authentication. Every request has an <code>Authorization</code> header set to <code>bearer &lt;access_token&gt;</code>, and without it the requests just get rejected. The token is stored in a session cookie, so it can only be retrieved after the user logs in. That's why the script still logs in with Selenium first, and then takes the token from the cookies.</p>
+
+    <figure>
+      <img src="../assets/reserve-court/access-token-cookie.png" alt="Browser developer tools showing the access_token cookie on rec.us" loading="lazy">
+      <figcaption>The access token, hiding in the cookies</figcaption>
+    </figure>
+
+    <h3>Request the verification code early</h3>
+
+    <p>After experimenting with the verification code a bit, I found out that <strong>a code stays valid for up to 2 minutes</strong>. So instead of waiting until registration opens to request the code, the script requests it a minute before. By the time the courts open, the code is already sitting there, and we save some extra time on the actual reservation.</p>
+
+    <h3>Try every court at the same time</h3>
+
+    <p>Each location usually has multiple courts. For example, Alice Marble has 4 different tennis courts, and each one needs its own request. I only need one of them, but I don't know which one will still be open. If the script tries them one by one, by the time it gets to the 4th court, that one might already be taken too.</p>
+
+    <p>So the script uses <strong>multithreading</strong> to send the requests in parallel instead of waiting for each one to finish, so it can grab whichever court is still open.</p>
+
+    <h3>rec.us blocks virtual phone numbers</h3>
+
+    <p>This one was annoying. The obvious option for receiving the verification text is a virtual number, like one from Twilio. But as of Feb 2025, rec.us blocks virtual (VoIP) numbers. Using my personal number wasn't a good option either, because it's hard to connect a real phone to a script.</p>
+
+    <p>The fix was to rent a non-VoIP number on TextVerified, which has an API to read incoming text messages. That way the whole flow can run without me touching my phone.</p>
+
+    <h2>What I've learnt</h2>
+
+    <h3>Look at what the website is actually doing</h3>
+
+    <p>The UI is built for humans, not for speed. The biggest improvement in this project didn't come from writing smarter code, it came from opening the network tab and seeing what requests the website was sending. Once I understood that, the clicking was just extra time I didn't need.</p>
+
+    <h3>Every second counts, so find where the seconds go</h3>
+
+    <p>The script went from failing a lot to booking courts in about 1.5 seconds, and it wasn't one big change. It was a few small ones: using the API instead of the UI (5-6 seconds), requesting the code early, and sending requests in parallel. Each one only makes sense once you know which step is actually slow.</p>
+
+    <h3>Build things that solve my own problem</h3>
+
+    <p>Same lesson as my <a href="leagueguessr.html">LeagueGuessr</a> project. I didn't build this because it sounded like a cool project idea. I built it because I kept losing courts, and I really wanted to play. That made it very easy to stay motivated, and also very easy to tell if it was working: either I had a court on Wednesday, or I didn't.</p>
+  </div>
+
+  <div class="next">
+    <span class="muted">Previous project</span>
+    <a href="leagueguessr.html">← LeagueGuessr</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>© 2026 Tung Do · <a href="mailto:tnd2125@columbia.edu" style="color: var(--text);">tnd2125@columbia.edu</a></div>
+    <div class="links">
+      <a href="https://github.com/donguyentung01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/tung-do-116bb8189/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

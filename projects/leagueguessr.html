@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>LeagueGuessr · Tung Do</title>
+  <meta name="description" content="How I built LeagueGuessr, a League of Legends draft-guessing game with 30k+ players, and what I learned.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%233fb950'%3E%E2%80%BA_%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="accent">› </span>Tung Do</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="article">
+  <a class="back" href="../index.html#projects">← Back to projects</a>
+
+  <header>
+    <h1>I created a League of Legends mini-game with 25,000+ users.</h1>
+    <p class="dek">And here's what I've learned</p>
+    <div class="meta">
+      <span>Aug 2, 2025</span>
+      <a href="https://leagueguessr.com" target="_blank" rel="noopener">Play the game ↗</a>
+      <a href="https://github.com/donguyentung01/LeagueGuessr" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.reddit.com/r/leagueoflegends/comments/1l3k8dh/i_pulled_data_from_10000_aram_matches_in_euw_and/" target="_blank" rel="noopener">Reddit ↗</a>
+      <a href="https://www.reddit.com/r/ARAM/comments/1kqn8r8/i_pulled_data_from_10000_aram_matches_in_euw_and/" target="_blank" rel="noopener">Reddit (r/ARAM) ↗</a>
+    </div>
+    <div class="note">Originally posted on <a href="https://tungdo01.substack.com/p/i-created-a-league-of-legends-mini" target="_blank" rel="noopener">my Substack</a>. The numbers have grown since then: the game is now at <strong style="color: var(--text);">30,000+ players</strong> and <strong style="color: var(--text);">300,000+ plays</strong>.</div>
+  </header>
+
+  <figure style="margin: 0 0 40px;">
+    <img src="../assets/leagueguessr/caedrel-stream.png" alt="Streamer Caedrel playing the game live on his Twitch stream" style="border-radius: 6px; border: 1px solid var(--border);">
+    <figcaption class="muted" style="margin-top: 10px; font-size: 14px; text-align: center;">Caedrel playing the game (back when it was called ARAM Guess) on his Twitch stream. <a class="accent" href="https://www.twitch.tv/caedrel/clip/CoyBoringPterodactylGingerPower-DvceWTwpsh5ivYf3" target="_blank" rel="noopener">Watch the clip ↗</a></figcaption>
+  </figure>
+
+  <div class="prose">
+<p>I launched <strong><a href="http://leagueguessr.com">leagueguessr.com</a></strong>, a mini-game about League of Legends, back in <a href="https://www.reddit.com/r/leagueoflegends/comments/1lhz7xk/i_pulled_data_from_10000_ranked_matches_and_made/">May 2025</a>. If you don't know anything about League of Legends, it is a MOBA video game that pits 2 teams, each consists of 5 players, against each other. The first thing that you have to do in League is called "<strong>drafting</strong>”, aka when each player chooses a character (or “champion”, in League’s terms) that they want to play. Each champion in League of Legends has unique abilities—some work well together due to strong synergy, while others are effective at countering specific opponents. So a significant part of the game outcome is already determined at draft, because a better team composition gives you a better chance to win. </p>
+<p><strong>leagueguessr.com</strong> simply lets you guess which team you think would win based on their champion picks. Afterwards, the winning team is revealed. You can only make 3 wrong guesses before the game’s over. </p>
+<p>Ever since launch, the game has had 25,000+ users, around 200,000+ guesses made, and I think the most special moment was when the game was featured on <a href="https://www.twitch.tv/caedrel/clip/CoyBoringPterodactylGingerPower-DvceWTwpsh5ivYf3">Caedrel’s Twitch stream</a> (1 million+ subscriber streamer). </p>
+<h2>Why I made this game</h2>
+<p>I started playing League of Legends since 2019, and I’ve probably put more hours into League of Legends than most other hobbies in my life. I’m quite passionate about the game, and it naturally occurred to me that I should make a programming project about something I enjoyed. </p>
+<p>In the game drafting phases, I usually had debates with my friends about which champion we should select. Knowing what champion to pick is actually quite hard, because there are many factors to consider. You have to think about what champions your team already has, so you can pick something that synergizes well with the rest of the team. You also have to think about what champion the enemy team has, so you can choose something that counters the other team. </p>
+<p>We debated so much that one some point, I thought to myself: “Why don’t I just <strong>pull all the past League matches’ data </strong>(champion picks, game outcome, etc), and then try to <strong>guess which team wins only based on the champions picked</strong>? That would test whether my understanding of champion pick is good or not.”</p>
+<p>That’s how this game started. It started as a way for me and my friends to settle our very own debate about which champions we should pick.  </p>
+<h2>Technical challenges</h2>
+<h3>Store games in the database or fetch on demand?</h3>
+<p>There are two ways to get a random League of Legends game for users to guess.</p>
+<ol><li><p>Fetch game on-demand, using public League of Legends API. The server sends requests to the League of Legends API every time a user asks for a new game. </p>
+</li><li><p>Pre-fetch and store a large amount of games into a local database. Fetch games from the database every time the user asks for a new game.</p>
+</li></ol>
+<p>Each method has its pros and cons. </p>
+<p>The second method (database storage)’s advantage is that <strong>fetching from database is much faster compared to fetching from API</strong>, since API speed also depends on your network capacity, whereas the database can be hosted on the same server as your backend.  </p>
+<p>A serious downside of the first method (on-demand fetch) is that <strong>League of Legends API has rate limiter,</strong> e.g. they only allow 20 requests per second. Imagine if you have 30 users requesting a new question at a time. That would cause the server to slow down, because it has to wait for the rate limiter. </p>
+<p>All things considered, I went with the second method. </p>
+<h3>Optimize the database</h3>
+<p>The game’s mechanism is quite simple. </p>
+<p>I pulled around 10,000+ League of Legends game played over the last 2 weeks from Riot API, stored them into the database, and then displayed a random game for each guess. </p>
+<p>A natural question arises: how do we store the game’s information (the players, the outcome, etc) in the database. </p>
+<p>In the first iteration of this project, the UI simply shows the 10 champions picked, the duration of the game, and asks users to guess. After that, the UI displays the result, either the user makes a right or wrong guess. </p>
+<p>An intuitive representation of the game in SQL is like this:</p>
+<pre><code>MariaDB [lolforecast]&gt; describe game_data;
++----------------+--------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| gameId | varchar(255) | NO | PRI | NULL | |
+| gameStartTime | bigint(20) | YES | | NULL | |
+| champion1 | varchar(255) | YES | | NULL | |
+| champion2 | varchar(255) | YES | | NULL | |
+…
+| champion10 | varchar(255) | YES | | NULL | |
+| summonerName1 | varchar(255) | YES | | NULL | |
+| summonerName2 | varchar(255) | YES | | NULL | |
+….
+| summonerName10 | varchar(255) | YES | | NULL | |
+| blueWins | tinyint(1) | YES | | NULL | |
++----------------+--------------+------+-----+---------+-------+</code></pre>
+</blockquote><p>You simply have one row per game, each game should have an ID, 10 champions in the game, 10 League of Legends usernames, and finally the outcome of the game. </p>
+<p>However, simply knowing your guess is right or wrong isn’t very interesting. What’s interesting and perhaps even educational is knowing <em><strong>where your guess has gone wrong</strong></em>. Therefore, I wanted to add a few post-game statistics after the user made a guess, e.g. each player’s KDA (kill/death/assist) record, their item build, how much damage they have done, how much damage they have taken. This gives the users a better understanding of what actually happened in the game, and whether the flow of the game went accordingly with their initial prediction. </p>
+<p>So a significant part of information about 10 players need to be added. Each player needs to have more fields, such as KDA, items, etc. </p>
+<p>Now, the original database design <strong>doesn’t work so well anymore</strong>. If we keep the original database, then we need to add at least 20 fields per player to this table. That would result in a table with more than 200 fields.</p>
+<p>A better alternative would be to create a separate table that stores just the player’s information. This table would look something like this:</p>
+<pre><code>MariaDB [lolforecast]&gt; describe game_players;
++----------------+--------------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++----------------+--------------------+------+-----+---------+----------------+
+| id | int(11) | NO | PRI | NULL | auto_increment |
+| game_id | varchar(255) | YES | MUL | NULL | |
+| player_index | tinyint(4) | YES | | NULL | |
+| summoner_name | varchar(255) | YES | | NULL | |
+| champion_name | varchar(255) | YES | | NULL | |
+| team | enum('blue','red') | YES | | NULL | |
+| kills | tinyint(4) | YES | | NULL | |
+| deaths | tinyint(4) | YES | | NULL | |
+| assists | tinyint(4) | YES | | NULL | |
+| spell1 | varchar(50) | YES | | NULL | |
+| spell2 | varchar(50) | YES | | NULL | |
+| primary_rune | varchar(50) | YES | | NULL | |
+| secondary_rune | varchar(50) | YES | | NULL | |
+| item0 | varchar(100) | YES | | NULL | |
+| item1 | varchar(100) | YES | | NULL | |
+| item2 | varchar(100) | YES | | NULL | |
+…
+| item6 | varchar(100) | YES | | NULL | |
+| damage_dealt | int(11) | YES | | NULL | |
+| damage_taken | int(11) | YES | | NULL | |
++----------------+--------------------+------+-----+---------+----------------+</code></pre>
+<p>Essentially, I put each player instance in this <code>game_player</code> table, and each instance is associated with a gameID. The <code>game </code>table only needs to store game-specific information (game duration, game outcome, etc).</p>
+<p>I don’t need another 200 fields in the game table, instead I just simply created another table for each player instance. </p>
+<h3>How many users have used my website?</h3>
+<p>One issue I ran into is counting the users that visited my website. I came up with 2 methods to do this: </p>
+<ol><li><p>Count up all the unique IP addresses in nginx log. </p>
+</li><li><p>Assign an anonymous token for each user the first time they used the website. Store that token in their browser’s localStorage and on our database.</p>
+</li></ol>
+<p>Each method has different tradeoffs: </p>
+<p>The first method’s disadvantage is that if a user switches their location—let’s say they go from their apartment to their work office, <strong>their IP addresses are going to change</strong>. So one user could accidentally count as 2-3 users if we just look at the IP addresses. </p>
+<p>The second method wouldn’t run into this issue, because the token is stored in the browser’s localStorage regardless of which network router they are on. The only issue is when they use different browsers (multiple tokens would be assigned to one user) or when they clear their localStorage (unlikely that the average Internet user would do this, but not impossible). </p>
+<p>In the end, I used both methods and the results were quite interesting: both methods yield the same amount of users (25k-ish). So even though I don’t truly know the exact number of players, a reliable estimate would be 25k+. </p>
+<h3>Preventing users from cheating using API call</h3>
+<p>I have a POST API endpoint <code>send_record_score </code>that has the record score of users as part of the payload, and updates their record in the database. This score then gets displayed on the leaderboard. This API only gets called after 3 wrong guesses have been made and the game is over; then the client sends this request along with the current score of the user. For increased security, the request also needs to come with a valid authorization token. </p>
+<p>Some users abuse this endpoint by retrieving the token from Cookies and sending very high score to the backend, and essentially cheat their ways into the leaderboard. </p>
+<p>To solve this issue, I created new columns in the users table that represent the current score of the user. Instead of fetching the score from the payload (which the players can manipulate), <code>send_record_score </code>get the current score from the database, which is a reliable source of truth. </p>
+<h2>What I’ve learnt</h2>
+<h3>Building projects in small iterations</h3>
+<p><strong>Premature optimization is the root of all evils</strong>. </p>
+<p>When I started out this project, the first prototype was super simple (as I documented in the previous section) and then I gradually built up more features. This allows me to achieve these goals:</p>
+<ol><li><p>Testing whether the idea is a good one: Even when it was a prototype, I can sort of see if the game is interesting to play. When I played it myself, I felt quite excited, so that’s the moment I decided to scale up the game to have more intricate details. This also helped online users to have time to give me feedback and then I could update the project accordingly. </p>
+</li><li><p>Fewer major bugs: One mistake I often ran into with big projects like this is that there are many moving parts, so it’s easy to code something too complicated to debug. This didn’t happen this time, because I started small, and gradually scaled based on users’ continuous feedback. </p>
+</li></ol>
+<h3>Features Reddit recommend (and I implemented!)</h3>
+<p>Here are a few examples of features that some Reddit users recommend, which I successfully incorporated into the game. </p>
+<ol><li><p><strong>Rank reveal</strong></p>
+</li></ol>
+<figure><img src="../assets/leagueguessr/img1.png" alt="Rank reveal shown after a guess" loading="lazy"></figure>
+<p>To get the rank of the game, I fetch the rank of a random player in the game. This should work (even though it’s not the average), because League of Legends matchmaking guarantee that all players are on similar ranks.</p>
+<figure><img src="../assets/leagueguessr/img2.png" alt="Rank badge on a LeagueGuessr game" loading="lazy"></figure>
+<ol start="2"><li><p><strong>Adding “Summoner’s Rift” mode (as opposed to just “ARAM” mode)</strong></p>
+</li></ol>
+<figure><img src="../assets/leagueguessr/img3.png" alt="Mode picker with Summoner’s Rift and ARAM" loading="lazy"></figure>
+<figure><img src="../assets/leagueguessr/img4.png" alt="Summoner’s Rift mode in LeagueGuessr" loading="lazy"></figure>
+<h3>Building projects that solve my own problem</h3>
+<p>Here’s a few examples of my past projects before this one:</p>
+<ol><li><p>A social media website</p>
+</li><li><p>An online board game</p>
+</li><li><p>Tic Tac Toe coded in Bash</p>
+</li></ol>
+<p>These projects were not bad. Some of them were even quite interesting to implement. However, they <strong>did not solve a problem I have</strong>. Therefore, they <strong>did not solve a problem that anyone has</strong>. </p>
+<p>In order for a project/an idea to have a lot of impact, a lot of users, etc, it needs to solve a problem. And the <strong>best way to come up with such an idea is to start with a problem that I myself have</strong>. And that’s exactly how I started <strong>leagueguessr.com</strong>, and that also explained how <strong>leagueguessr.com</strong> appealed to so many strangers online. Drafting has always been an important part of the game, and yet, there are not a lot of tools where you can practice drafting.</p>
+<p><strong>leagueguessr.com</strong> solved that issue for many people, and is also very entertaining as a game. That perhaps explains why the game garnered quite some popularity over the months. </p>
+  </div>
+
+  <div class="next">
+    <span class="muted">Next project</span>
+    <a href="reserve-court-sf.html">Reserve Court SF →</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>© 2026 Tung Do · <a href="mailto:tnd2125@columbia.edu" style="color: var(--text);">tnd2125@columbia.edu</a></div>
+    <div class="links">
+      <a href="https://github.com/donguyentung01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/tung-do-116bb8189/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
