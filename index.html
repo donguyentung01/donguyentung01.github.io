@@ -90,22 +90,23 @@
         <div class="card-body">
           <div class="card-title">
             <h3><a href="projects/reserve-court-sf.html">Reserve Court SF</a></h3>
-            <span class="stack">Built with Python, runs daily on AWS</span>
+            <span class="stack">Python · Selenium · REST API · multithreading · AWS EC2</span>
           </div>
-          <p>San Francisco's public tennis courts are gone within seconds of booking opening. So I wrote a bot that books them for me, faster than any person can click.</p>
+          <p>SF's public tennis courts sell out 5–10 seconds after booking opens. I reverse-engineered the booking site's undocumented API and built a bot that reserves a court in ~1.5 seconds.</p>
           <div class="fair"><span class="fair-tag">Fair play</span> I only booked courts I was actually going to play on. No extras, never resold. Public courts should stay public.</div>
           <div class="log" data-animate>
-            <div class="log-head">What the bot does every morning</div>
+            <div class="log-head">Every morning, via cron on AWS EC2</div>
             <ol>
-              <li><time>7:58 AM</time> Logs in to the booking site</li>
-              <li><time>7:59 AM</time> Grabs the text-message verification code by itself</li>
-              <li><time>8:00 AM</time> Booking opens: tries every court at once to grab an open one</li>
-              <li><time>8:00 AM</time> <span class="ok">✓ Court reserved in ~1.5 seconds</span></li>
+              <li><time>07:58<i>:00</i></time> <span>Selenium logs in, grabs the auth token from cookies</span></li>
+              <li><time>07:59<i>:00</i></time> <span>Requests the SMS code early, reads it via TextVerified API</span></li>
+              <li><time>08:00<i>:00</i></time> <span>Hits every court's reservation endpoint <b class="hl">in parallel (multithreading)</b></span></li>
+              <li><time>08:00<i>:01</i></time> <span class="ok">✓ Court reserved in ~1.5s</span></li>
             </ol>
           </div>
-          <div class="stats" style="--cols: 2;">
+          <div class="stats">
             <div><b>100+</b><span>courts booked in 3 months</span></div>
-            <div><b>~1.5s</b><span>average time to book</span></div>
+            <div><b>~1.5s</b><span>average booking time</span></div>
+            <div><b>5–6s</b><span>saved by calling the API instead of clicking the UI</span></div>
           </div>
           <div class="card-foot">
             <a class="read" href="projects/reserve-court-sf.html">Read the story →</a>
