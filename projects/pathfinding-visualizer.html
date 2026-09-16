@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pathfinding Visualizer · Tung Do</title>
+  <meta name="description" content="How I built a React website that animates BFS, Dijkstra, A* and Greedy Best-First Search on a grid.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1117'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%233fb950'%3E%E2%80%BA_%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="accent">› </span>Tung Do</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="article">
+  <a class="back" href="../index.html#projects">← Back to projects</a>
+
+  <header>
+    <h1>I built a website that shows how pathfinding algorithms think.</h1>
+    <p class="dek">Watching Dijkstra and A* search a maze, one grid at a time</p>
+    <div class="meta">
+      <span>React · Firebase</span>
+      <a href="https://pathfinding-visualizer-ae94a.web.app/" target="_blank" rel="noopener">Try it live ↗</a>
+      <a href="https://github.com/donguyentung01/pathfinding" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <p>Pathfinding Visualizer is a website that animates how different algorithms find the shortest path between two points on a grid. It's one of my earlier projects, which I built back in college in 2021.</p>
+
+    <p>If you've taken an algorithms class, you've probably seen Dijkstra's algorithm or A* search as pseudocode on a slide. The pseudocode is not that hard to read. What's harder is getting a feel for <strong>how</strong> each algorithm actually explores: which cells it looks at first, why one algorithm finishes faster than another, and why some of them don't always find the shortest path. So this website lets you just watch it happen.</p>
+
+    <figure>
+      <img src="../assets/pathfinding/full-app.png" alt="Pathfinding Visualizer showing a generated maze, explored cells in orange and the shortest path in green" loading="lazy">
+      <figcaption>A* search on a maze made with Randomized Prim's algorithm. Orange is explored, green is the shortest path.</figcaption>
+    </figure>
+
+    <h2>How it works</h2>
+
+    <p>The board is a 20 x 20 grid. Using it is pretty simple:</p>
+
+    <ol>
+      <li><p><strong>Click on two grids</strong> to set the start and end points.</p></li>
+      <li><p><strong>Click twice on a grid</strong> to turn it into an obstacle, or use "Generate Maze" to build a whole maze for you.</p></li>
+      <li><p><strong>Pick an algorithm</strong> from "Run Pathfinding Algorithms", and watch it search.</p></li>
+    </ol>
+
+    <p>While the algorithm runs, each grid changes color: orange for grids that were already explored, light orange for grids that are about to be explored, and green for the final shortest path.</p>
+
+    <h2>The algorithms</h2>
+
+    <p>There are 4 pathfinding algorithms to choose from:</p>
+
+    <ol>
+      <li><p><strong>Breadth-First Search</strong>: unweighted, and guarantees the shortest path.</p></li>
+      <li><p><strong>Dijkstra's Algorithm</strong>: weighted, and guarantees the shortest path.</p></li>
+      <li><p><strong>A* Search</strong>: weighted, and guarantees the shortest path.</p></li>
+      <li><p><strong>Greedy Best-First Search</strong>: weighted, but does <strong>not</strong> guarantee the shortest path.</p></li>
+    </ol>
+
+    <p>And 2 ways to generate a maze: <strong>Randomized Prim's Algorithm</strong>, or just a random maze.</p>
+
+    <h2>Technical challenges</h2>
+
+    <h3>Turning a grid into a graph</h3>
+
+    <p>All of these algorithms work on graphs, not grids. So the first step is to treat every grid as a node, and connect it to its neighbors. A natural question arises: how far apart are two neighbors?</p>
+
+    <p>For the weighted algorithms, I set the distance between a grid and its vertical or horizontal neighbor to be <strong>1</strong>, and the distance to a diagonal neighbor to be <strong>1.4</strong> (roughly √2). That way, going diagonally is cheaper than going right and then down, which is how it works in real life too.</p>
+
+    <h3>Giving A* a good guess</h3>
+
+    <p>What makes A* faster than Dijkstra is the heuristic: an estimate of how far each grid still is from the target. For each grid, A* keeps track of two numbers, the cost from the start so far and the estimated cost to the end, and it always explores the grid with the smallest sum first.</p>
+
+    <p>I used the straight-line (Euclidean) distance to the target as the estimate. Since a straight line is never longer than the real path, the estimate never overshoots, so A* still finds the shortest path, while exploring a lot fewer grids than Dijkstra. When two grids have the same total, it picks the one closer to the target to break the tie.</p>
+
+    <p>Greedy Best-First Search only looks at the estimate and ignores the cost so far. That's why it's usually the fastest to reach the end, but the path it finds isn't always the shortest. It's actually a nice thing to see side by side with A*.</p>
+
+    <h3>Animating the search</h3>
+
+    <p>If you just run the algorithm normally, it finishes instantly and you only see the final result. That's not very useful for a visualizer. So instead of running the whole search in one loop, each algorithm runs one step at a time on a timer (<code>setInterval</code>). Every tick, it explores the next grid, updates the colors, and React re-renders the board. Once it reaches the target, it traces back and draws the shortest path in green.</p>
+
+    <h3>Deployment</h3>
+
+    <p>The website is a React app with React Bootstrap for the navigation bar and popups, hosted on Firebase Hosting. I also set up GitHub Actions, so every push automatically builds and deploys the site.</p>
+
+    <h2>What I've learnt</h2>
+
+    <h3>Seeing an algorithm is different from reading it</h3>
+
+    <p>I understood these algorithms on paper before this project, but building the visualizer made them click in a different way. For example, you can literally see Dijkstra spreading out in every direction like a circle, while A* heads straight toward the target. It's one thing to know that a heuristic helps, and another thing to watch it skip half the board.</p>
+
+    <h3>The small details make it usable</h3>
+
+    <p>The first version was just a grid and some buttons. Then I added a tutorial popup, a color legend, warning popups when you try to run an algorithm without picking two grids, and an "About Our Algorithms" page. None of these are hard to build, but without them, a first-time visitor wouldn't really know what to do.</p>
+  </div>
+
+  <div class="next">
+    <a href="reserve-court-sf.html">← Reserve Court SF</a>
+    <a href="../index.html#projects">All projects →</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>© 2026 Tung Do · <a href="mailto:tnd2125@columbia.edu" style="color: var(--text);">tnd2125@columbia.edu</a></div>
+    <div class="links">
+      <a href="https://github.com/donguyentung01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/tung-do-116bb8189/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

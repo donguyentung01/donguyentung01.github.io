@@ -173,6 +173,14 @@ img { max-width: 100%; display: block; }
 .card-foot a, .card-proof a { position: relative; z-index: 2; }
 @media (hover: hover) { .card-foot .ext a:hover { color: var(--text); } }
 
+.split-media { background: #fff; border-bottom: 1px solid var(--border); }
+.split-media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; }
+@media (min-width: 820px) {
+  .card.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .split-media { border-bottom: 0; border-right: 1px solid var(--border); display: flex; align-items: center; }
+  .split-media img { aspect-ratio: auto; height: 100%; object-fit: cover; }
+}
+
 /* ---------- about ---------- */
 #about { padding-top: 80px; }
 .rows { border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
