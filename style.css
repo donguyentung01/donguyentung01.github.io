@@ -128,9 +128,9 @@ img { max-width: 100%; display: block; }
 .card-bar span { padding-left: 8px; }
 .card-img { width: 100%; aspect-ratio: 1486 / 620; object-fit: cover; object-position: top; }
 .card-video { display: block; aspect-ratio: 2 / 1; object-position: center; background: #000; }
-/* the làm thân demo is a gif: shown whole, on the game's own paper colour */
-.card-gif { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; background: #f2ebda; border-bottom: 1px solid var(--border); }
-@media (prefers-reduced-motion: reduce) { .card-gif { content: url("assets/video/lamthan-poster.jpg"); } }
+/* the làm thân demo is an animated image: shown whole, on the game's own paper colour */
+.card-demo { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; background: #f2ebda; border-bottom: 1px solid var(--border); }
+@media (prefers-reduced-motion: reduce) { .card-demo { content: url("assets/video/lamthan-poster.jpg"); } }
 video { max-width: 100%; }
 .card-proof {
   position: relative;
