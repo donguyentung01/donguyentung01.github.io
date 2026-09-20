@@ -34,4 +34,18 @@
       }, { threshold: 0.3 }).observe(list);
     } else step();
   });
+
+  // làm thân: the "questions answered" number comes from the live site's counter.
+  var lamthan = document.querySelector('[data-lamthan="total"]');
+  if (lamthan && window.fetch) {
+    fetch("https://lamthan.com/api/count")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.enabled || !d.total) return;
+        lamthan.textContent = d.total.toLocaleString("en-US");
+        var tag = document.querySelector('[data-lamthan="live"]');
+        if (tag) tag.hidden = false;
+      })
+      .catch(function () {});               // offline or blocked: the baked-in number stands
+  }
 })();
